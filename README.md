@@ -1,2 +1,2 @@
 # almanac
-A pseudo-addres book for Penn email accounts.
+A pseudo-address book for Penn email accounts.
