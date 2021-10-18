@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 def get_driverpath():
     global dirname
@@ -21,7 +22,7 @@ def sign_in(driverpath):
     driver.get('https://directory.apps.upenn.edu/directory/jsp/fast2.do')
     try:
         WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.XPATH, "/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[9]/td/a[1]/span")))
-    except Exception:
+    except TimeoutException:
         print('Login failed.')
 
 def create_csv(dirname):
@@ -48,15 +49,15 @@ def iterate_dir(orgs, affil):
                 search_field.send_keys(chr(first_let) + chr(second_let))
                 affil_field.send_keys(affil)
                 search_button.click()
-                time.sleep(1)
+                # time.sleep(1)
                 try:
-                    scrape_page()
                     page_count = get_max_pages()
+                    scrape_page()
                     if page_count > 1:
                         for i in range(1, page_count):
                             next_button = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/form/table/tbody/tr/td/div[2]/a[{}]/span'.format(get_max_pages()))
                             next_button.click()
-                            time.sleep(1)
+                            # time.sleep(1)
                             scrape_page()
                 except Exception:
                     continue
@@ -73,7 +74,6 @@ def scrape_page():
         else:
             name = name.text
             email = email.text
-            print(name + " " + email)
             make_entry(name, email)
 
 def get_max_pages():
@@ -145,7 +145,21 @@ def get_affil_input():
     affiliation = input("Enter the affliation you'd like to catalogue: ")
     return str(affiliation)
 
+def upload_contacts():
+    driver.get('https://contacts.google.com')
+    try:
+        WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[7]/c-wiz/div[2]/div[6]/div[2]/div/div/div[3]/button[2]/span[2]')))
+    except TimeoutException:
+        print('Login failed.')
+    else:
+        import_button = driver.find_element(By.XPATH, '/html/body/div[7]/c-wiz/div[2]/div[6]/div[2]/div/div/div[3]/button[2]/span[2]')
+        import_button.click()
+        time.sleep(1)
+        select_button = driver.find_element(By.XPATH, '/html/body/div[7]/div[4]/div/div[2]/span/div/label/div')
+        select_button.click()
+
 if __name__ == '__main__':
     sign_in(get_driverpath())
     create_csv(dirname)
     iterate_dir(get_orgs_input(), get_affil_input())
+    upload_contacts()
