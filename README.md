@@ -40,4 +40,4 @@ At the script's conclusion, you'll be asked to choose a CSV file to upload to Go
 
 Credits
 -------
-Thanks to Ethan Hu and the STWing Lounge for making this all happen.
+Thanks to Ethan Hu and the STWing Lounge for making this all happen!
