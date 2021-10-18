@@ -22,6 +22,7 @@ Setup
 - Install a compatible distribution of Python 3.
 - `python3 -m pip install csv`
 - `python3 -m pip install selenium`
+- Run 'almanac.py'.
 
 Usage
 -----
