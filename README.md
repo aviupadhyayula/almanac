@@ -19,6 +19,8 @@ Disclaimer
 ----------
 To access the Penn Directory, this script will ask you to log-in to your Penn account. Your credentials are not stored at any point; think of it like just logging into your Penn account on a new browser. 
 
+Similarly, to upload the created contacts to Google Contacts, this script will ask you to log-in to your Penn Gmail account. Your credentials are never stored or documented; this repository is open-source for a reason.
+
 To ensure the privacy of users of Penn's network, this script is only usable by those with valid Penn accounts.
 
 Setup
