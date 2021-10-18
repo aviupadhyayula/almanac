@@ -8,8 +8,6 @@ That's where Almanac comes in, a Python script that generates and uploads a Goog
   <img src="promo_gif.gif" />
 </p>
 
-![](promo_gif.gif)
-
 Dependencies
 ------------
 - All code is written in Python 3.
