@@ -7,12 +7,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
-
 def get_driverpath():
     global dirname
     dirname = r'%s' % os.path.dirname(__file__)
     driverpath = dirname + r"/chromedriver"
-    print("Running from: " + driverpath)
+    print("Running Selenium from: " + driverpath)
     return driverpath
 
 def sign_in(driverpath):
@@ -33,32 +32,33 @@ def create_csv(dirname):
         entry = ["Name", "Given Name", "Additional Name", "Family Name", "E-mail 1 - Value"]
         writer.writerow(entry)
 
-def iterate_dir(org, affil):
+def iterate_dir(orgs, affil):
     for first_let in range(97, 123):
         for second_let in range(97, 123):
-            driver.get('https://directory.apps.upenn.edu/directory/jsp/fast2.do')
-            org_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[7]/td[2]/input')
-            affil_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[6]/td[2]/select')
-            search_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[3]/td[2]/input')
-            search_button = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[9]/td/a[1]/span')
-            org_field.clear()
-            org_field.send_keys(org)
-            search_field.clear()
-            search_field.send_keys(chr(first_let) + chr(second_let))
-            affil_field.send_keys(affil)
-            search_button.click()
-            time.sleep(1)
-            try:
-                scrape_page()
-                page_count = get_pages()
-                if page_count > 1:
-                    for i in range(1, page_count):
-                        next_button = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/form/table/tbody/tr/td/div[2]/a[{}]/span'.format(get_pages()))
-                        next_button.click()
-                        time.sleep(1)
-                        scrape_page()
-            except Exception:
-                continue
+            for org in orgs:
+                driver.get('https://directory.apps.upenn.edu/directory/jsp/fast2.do')
+                org_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[7]/td[2]/input')
+                affil_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[6]/td[2]/select')
+                search_field = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[3]/td[2]/input')
+                search_button = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr/td[1]/form/table/tbody/tr[9]/td/a[1]/span')
+                org_field.clear()
+                org_field.send_keys(org)
+                search_field.clear()
+                search_field.send_keys(chr(first_let) + chr(second_let))
+                affil_field.send_keys(affil)
+                search_button.click()
+                time.sleep(1)
+                try:
+                    scrape_page()
+                    page_count = get_max_pages()
+                    if page_count > 1:
+                        for i in range(1, page_count):
+                            next_button = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/form/table/tbody/tr/td/div[2]/a[{}]/span'.format(get_max_pages()))
+                            next_button.click()
+                            time.sleep(1)
+                            scrape_page()
+                except Exception:
+                    continue
 
 def scrape_page():
     name_path = '/html/body/table[2]/tbody/tr/td/form/table[1]/tbody/tr/td/table/tbody/tr[{}]/td[1]/table/tbody/tr/td/a/span'
@@ -75,7 +75,7 @@ def scrape_page():
             print(name + " " + email)
             make_entry(name, email)
 
-def get_pages():
+def get_max_pages():
     next_path = '/html/body/table[2]/tbody/tr/td/form/table/tbody/tr/td/div[2]/a[{}]/span'
     max = 1
     for i in range(2, 20):
@@ -121,6 +121,27 @@ def write_entry(entry):
         entry = [entry['name'], entry['firstname'], entry['middlename'], entry['lastname'], entry['email']]
         writer.writerow(entry)
 
-sign_in(get_driverpath())
-create_csv(dirname)
-iterate_dir('UNDER', 'STU')
+def get_orgs_input():
+    organizations = input("Enter the organizations you'd like to catalogue: ")
+    orgs = []
+    for i in range(0, len(organizations) + 1):
+        try:
+            gap = organizations.index(' ')
+        except Exception:
+            org = organizations[i : len(organizations)]
+            orgs.append(org)
+            break
+        else:
+            org = organizations[i : gap]
+            orgs.append(org)
+            i = gap
+    return orgs
+    
+def get_affil_input():
+    affiliation = input("Enter the affliation you'd like to catalogue: ")
+    return affiliation
+
+if __name__ == '__main__':
+    sign_in(get_driverpath())
+    create_csv(dirname)
+    iterate_dir(get_orgs_input, get_affil_input)
