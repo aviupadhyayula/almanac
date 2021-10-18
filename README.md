@@ -37,3 +37,7 @@ Usage
 After logging in to Penn Directory, the script will prompt you to choose which organizations and affiliations you'd like to scrape contacts from. To create a contacts file of all undergraduate students, input `UNDER;COLLEGE OF ARTS & SCIENCES` when asked for your organizations of choice, and `STU` when asked for your affiliation of choice. For alternate configurations, see the Penn Directory's [documentation](https://directory.apps.upenn.edu/directory/jsp/fast.do "https://directory.apps.upenn.edu/directory/jsp/fast.do").
 
 At the script's conclusion, you'll be asked to choose a CSV file to upload to Google Contacts. Navigate to the folder this script is contained in, and select the file titled 'contacts.csv'.
+
+Credits
+-------
+Thanks to Ethan Hu and the STWing Lounge for making this all happen.
