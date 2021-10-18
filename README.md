@@ -13,6 +13,7 @@ Dependencies
 - All code is written in Python 3.
 - Relies on the 'csv' library.
 - Relies on the 'selenium' library.
+- Requires installation of 'chromedriver', a separate executable used by Selenium.
 
 Disclaimer
 ----------
@@ -26,6 +27,7 @@ Setup
 - Install a compatible distribution of Python 3.
 - `python3 -m pip install csv`
 - `python3 -m pip install selenium`
+- [Download](https://chromedriver.chromium.org/downloads "https://chromedriver.chromium.org/downloads") the version of chromedriver that matches your version of Google Chrome to the repository folder. The one included corresponds to Chrome version 93. If that doesn't correspond to your version of Chrome, replace it.
 - Run 'almanac.py'.
 
 Usage
