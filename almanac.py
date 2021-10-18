@@ -27,11 +27,12 @@ def sign_in(driverpath):
 def create_csv(dirname):
     global csv_name
     csv_name = dirname + '/contacts.csv'
+    print('Writing contacts to: ' + csv_name)
     with open(csv_name, mode='w') as contacts:
         writer = csv.writer(contacts, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         entry = ["Name", "Given Name", "Additional Name", "Family Name", "E-mail 1 - Value"]
         writer.writerow(entry)
-
+ 
 def iterate_dir(orgs, affil):
     for first_let in range(97, 123):
         for second_let in range(97, 123):
@@ -124,24 +125,27 @@ def write_entry(entry):
 def get_orgs_input():
     organizations = input("Enter the organizations you'd like to catalogue: ")
     orgs = []
-    for i in range(0, len(organizations) + 1):
+    i = 0
+    while i <= len(organizations):
         try:
-            gap = organizations.index(' ')
+            gap = organizations.index(';', i)
         except Exception:
-            org = organizations[i : len(organizations)]
+            org = str(organizations[i : len(organizations)])
             orgs.append(org)
             break
         else:
-            org = organizations[i : gap]
+            org = str(organizations[i : gap])
             orgs.append(org)
-            i = gap
+            i = gap 
+        finally:
+            i += 1
     return orgs
     
 def get_affil_input():
     affiliation = input("Enter the affliation you'd like to catalogue: ")
-    return affiliation
+    return str(affiliation)
 
 if __name__ == '__main__':
     sign_in(get_driverpath())
     create_csv(dirname)
-    iterate_dir(get_orgs_input, get_affil_input)
+    iterate_dir(get_orgs_input(), get_affil_input())
