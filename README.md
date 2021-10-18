@@ -4,6 +4,8 @@ Picture this: it's midnight, you've got a group project due in 8 hours, and you 
 
 That's where Almanac comes in, a Python script that generates and uploads a Google Contacts-compatible address book for Penn email accounts. Take a look at the results yourself:
 
+![](promo_gif.gif)
+
 Dependencies
 ------------
 - All code is written in Python 3.
