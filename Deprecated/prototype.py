@@ -54,7 +54,7 @@ for flet in range (97, 123):
                     email = driver.find_element(By.XPATH, epath.format(row))
                 except NoSuchElementException:
                     break
-                else:
+                else:  
                     name = name.text 
                     email = email.text 
                     lastname = name[0 : name.index(',')]
@@ -69,7 +69,7 @@ for flet in range (97, 123):
                     lastname = lastname[0 : 1] + lastname[1 : len(lastname)].lower()
                     if len(middlename) == 1:
                         middlename = middlename + '.'
-                    name = firstname + " " + middlename + " " + lastname
+                    name = firstname + " " + lastname
                     entry = {"name" : name, "firstname": firstname, "middlename": middlename, "lastname": lastname, "email": email}
                     if entry in people:
                         break
@@ -77,8 +77,8 @@ for flet in range (97, 123):
                         people.append(entry)
                         print(entry)
                         with open(dirname + '/contacts.csv', mode='a') as contacts:
-                            writer = csv.writer(contacts, delimiter =',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                            entry = [name, firstname, middlename, lastname, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", email]
+                            writer = csv.writer(contacts, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                            entry = [entry["name"], entry["firstname"], entry["middlename"], entry["lastname"], "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", entry["email"]]
                             writer.writerow(entry)
             try:
                 nextpage = driver.find_element(By.XPATH, '/html/body/table[2]/tbody/tr/td/form/table[1]/tbody/tr/td/div[2]/a[2]/span')
@@ -86,16 +86,10 @@ for flet in range (97, 123):
                 hasNext = False
                 break
             else:
-                if (nextpage.text == "Next"):
+                hasNext = True
+                if (nextpage.text.lower() == "next"):
                     nextpage.click()
                     time.sleep(1)
+                    continue
                 else:
                     break
-
-# with open(dirname + '/contacts.csv', mode='w') as contacts:
-#     writer = csv.writer(contacts, delimiter =',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-#     entry = ["Name", "Given Name", "Additional Name", "Family Name", "Yomi Name", "Given Name Yomi", "Additional Name Yomi", "Family Name Yomi", "Name Prefix", "Name Suffix", "Initials", "Nickname", "Short Name", "Maiden Name", "Birthday", "Gender", "Location", "Directory Server", "Mileage", "Occupation", "Hobby", "Sensitivity", "Priority", "Subject", "Notes", "Language", "Photo", "Group Membership", "E-mail 1 - Type", "E-mail 1 - Value"]
-#     writer.writerow(entry)
-#     for person in people:
-#         entry = [person['name'], person['firstname'], person['middlename'], person['lastname'], "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", person['email']]
-#         writer.writerow(entry)
