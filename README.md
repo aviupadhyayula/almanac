@@ -2,7 +2,7 @@ Almanac
 =======
 Picture this: it's midnight, you've got a group project due in 8 hours, and you need to email one of your classmates ASAP. The problem? You don't know their PennKey. Now, you could spend an hour stalking them on Instagram to get their last name, so that you could plug it into Canvas's People page, and then hope their email's public... but who wants to do that?
 
-That's where Almanac comes in, a Python script that generates and uploads a Google Contacts-compatible address book for Penn email accounts. Take a look at the results yourself:
+That's where Almanac comes in, a Python script that generates and uploads a Google Contacts-compatible address book for Penn email accounts. Take a look at before and after:
 
 <p align="center">
   <img src="promo_gif.gif" />
