@@ -158,8 +158,17 @@ def upload_contacts():
         select_button = driver.find_element(By.XPATH, '/html/body/div[7]/div[4]/div/div[2]/span/div/label/div')
         select_button.click()
 
-if __name__ == '__main__':
+def main():
     sign_in(get_driverpath())
     create_csv(dirname)
     iterate_dir(get_orgs_input(), get_affil_input())
     upload_contacts()
+
+if __name__ == '__main__':
+    main()
+
+# if __name__ == '__main__':
+#     sign_in(get_driverpath())
+#     create_csv(dirname)
+#     iterate_dir(get_orgs_input(), get_affil_input())
+#     upload_contacts()
