@@ -123,7 +123,7 @@ def write_entry(entry):
         writer.writerow(entry)
 
 def get_orgs_input():
-    organizations = input("Enter the organizations you'd like to catalogue: ")
+    organizations = input("Organization(s): ")
     orgs = []
     i = 0
     while i <= len(organizations):
@@ -142,7 +142,7 @@ def get_orgs_input():
     return orgs
     
 def get_affil_input():
-    affiliation = input("Enter the affliation you'd like to catalogue: ")
+    affiliation = input("Affiliation: ")
     return str(affiliation)
 
 def upload_contacts():
@@ -159,16 +159,12 @@ def upload_contacts():
         select_button.click()
 
 def main():
+    orgs = get_orgs_input()
+    affil = get_affil_input()
     sign_in(get_driverpath())
     create_csv(dirname)
-    iterate_dir(get_orgs_input(), get_affil_input())
+    iterate_dir(orgs, affil)
     upload_contacts()
 
 if __name__ == '__main__':
     main()
-
-# if __name__ == '__main__':
-#     sign_in(get_driverpath())
-#     create_csv(dirname)
-#     iterate_dir(get_orgs_input(), get_affil_input())
-#     upload_contacts()
